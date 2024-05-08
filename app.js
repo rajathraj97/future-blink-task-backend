@@ -26,7 +26,7 @@ configureDb();
 app.post("/api/register", userCtlr.register);
 app.post("/api/login", userCtlr.login);
 app.post("/api/save",userCtlr.save )
-app.length("/api/get")
+app.get("/api/get",userCtlr.get)
 
 
 app.listen(3003, () => {

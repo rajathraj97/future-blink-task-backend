@@ -19,7 +19,7 @@ userCtlr.register = async(req,res)=>{
         console.log(hashPassword)
         user.password = hashPassword
         const userDoc = await user.save()
-        res.json(userDoc)
+        res.status(200).json({userDoc})
         
     }catch(e){
     res.status(404).json(e)
@@ -34,11 +34,12 @@ userCtlr.login = async(req,res) =>{
     if(user){
       const password = await bcrypt.compare(body.password,user.password)
       if(password){
+        const user =await User.findOne({email:body.email})
         const tokenData = {
             email:user.email,
         }
-        const token = jwt.sign(tokenData,"abc123")
-        res.status(200).json(`Bearer ${token}`)
+        const token = jwt.sign(tokenData,process.env.secretcode)
+        res.status(200).json({token:`Bearer ${token}`,user:user})
       }else{
         res.json({error:"Invalid Password"})
       }
@@ -55,9 +56,11 @@ userCtlr.login = async(req,res) =>{
 
 userCtlr.save = async(req,res) =>{
     try{
+    console.log(req.body)
     const body = pick(req.body,['nodes','edges','email'])
     const savedData = await User.findOneAndUpdate({email:body.email},{nodes:body.nodes,edges:body.edges})
-    res.status(200).json({msg:"svaed"})
+    console.log(savedData,"saved")
+    res.status(200).json({msg:"saved"})
     }catch(e){
         res.status(400).json({msg:"not saved"})
     }
