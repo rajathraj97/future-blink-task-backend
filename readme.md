@@ -38,7 +38,7 @@ Instructions on how to use them in your own application are linked below.
 
 | Plugin | README |
 | ------ | ------ |
-| Mui | 
-| react flow | 
-| bootstrap | 
-| axios |
+| Mongoose | 
+| express | 
+| lodash | 
+| cors |
